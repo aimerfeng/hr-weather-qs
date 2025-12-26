@@ -10,8 +10,17 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 import os
+import sys
 
-from web.api import chat, weather, config
+# 添加当前目录到 Python 路径（Vercel 部署需要）
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+# 使用相对导入
+try:
+    from . import chat, weather, config
+except ImportError:
+    # 本地开发时的导入方式
+    from web.api import chat, weather, config
 
 # 创建 FastAPI 应用
 app = FastAPI(
@@ -35,7 +44,10 @@ app.include_router(weather.router, prefix="/api", tags=["weather"])
 app.include_router(config.router, prefix="/api/config", tags=["config"])
 
 # 挂载静态文件（仅在本地开发时）
-if os.path.exists("web/static"):
+static_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "static")
+if os.path.exists(static_dir):
+    app.mount("/static", StaticFiles(directory=static_dir), name="static")
+elif os.path.exists("web/static"):
     app.mount("/static", StaticFiles(directory="web/static"), name="static")
 
 
@@ -47,16 +59,24 @@ async def root():
     Returns:
         FileResponse: HTML 主页面
     """
-    static_path = "web/static/index.html"
-    if os.path.exists(static_path):
-        return FileResponse(static_path)
-    else:
-        return {
-            "message": "AI Assistant Agent API",
-            "version": "1.0.0",
-            "docs": "/docs",
-            "health": "/health"
-        }
+    # 尝试多个可能的静态文件路径
+    possible_paths = [
+        os.path.join(os.path.dirname(os.path.dirname(__file__)), "static", "index.html"),
+        "web/static/index.html",
+        "static/index.html"
+    ]
+    
+    for static_path in possible_paths:
+        if os.path.exists(static_path):
+            return FileResponse(static_path)
+    
+    # 如果找不到静态文件，返回 API 信息
+    return {
+        "message": "AI Assistant Agent API",
+        "version": "1.0.0",
+        "docs": "/docs",
+        "health": "/health"
+    }
 
 
 @app.get("/health")

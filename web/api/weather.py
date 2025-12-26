@@ -10,9 +10,18 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from typing import List, Optional
 from datetime import datetime
+import sys
+import os
 
-from web.lib.weather_service import WeatherService, WeatherAPIError, CityNotFoundError
-from web.lib.models import WeatherData, ForecastDay, WeatherHistoryEntry
+# 添加父目录到路径以支持导入
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+try:
+    from lib.weather_service import WeatherService, WeatherAPIError, CityNotFoundError
+    from lib.models import WeatherData, ForecastDay, WeatherHistoryEntry
+except ImportError:
+    from web.lib.weather_service import WeatherService, WeatherAPIError, CityNotFoundError
+    from web.lib.models import WeatherData, ForecastDay, WeatherHistoryEntry
 
 router = APIRouter()
 

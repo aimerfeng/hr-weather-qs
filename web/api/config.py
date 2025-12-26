@@ -9,9 +9,18 @@ Requirements: 8.5, 8.8
 from fastapi import APIRouter
 from pydantic import BaseModel
 from typing import Optional
+import sys
+import os
 
-from web.lib.config_manager import ConfigManager
-from web.lib.models import APIConfig, ValidationResult
+# 添加父目录到路径以支持导入
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+try:
+    from lib.config_manager import ConfigManager
+    from lib.models import APIConfig, ValidationResult
+except ImportError:
+    from web.lib.config_manager import ConfigManager
+    from web.lib.models import APIConfig, ValidationResult
 
 router = APIRouter()
 

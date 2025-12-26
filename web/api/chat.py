@@ -13,9 +13,18 @@ from pydantic import BaseModel
 from typing import List, Dict, Any, Optional
 import json
 import asyncio
+import sys
+import os
 
-from web.lib.agent import AgentCore, ConfigurationError, APIError
-from web.lib.models import APIConfig, SSEMessage
+# 添加父目录到路径以支持导入
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+try:
+    from lib.agent import AgentCore, ConfigurationError, APIError
+    from lib.models import APIConfig, SSEMessage
+except ImportError:
+    from web.lib.agent import AgentCore, ConfigurationError, APIError
+    from web.lib.models import APIConfig, SSEMessage
 
 router = APIRouter()
 

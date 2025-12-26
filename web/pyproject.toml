@@ -1,0 +1,13 @@
+[project]
+name = "ai-assistant-agent"
+version = "1.0.0"
+description = "AI Assistant Agent - 智能助手代理"
+requires-python = ">=3.8"
+
+[tool.vercel]
+# 指定 FastAPI 应用入口
+app = "api.index:app"
+
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
