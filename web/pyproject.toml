@@ -5,7 +5,7 @@ description = "AI Assistant Agent - 智能助手代理"
 requires-python = ">=3.8"
 
 [project.scripts]
-app = "api.index:app"
+app = "index:app"
 
 [build-system]
 requires = ["setuptools>=45", "wheel"]
