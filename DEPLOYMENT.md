@@ -195,6 +195,30 @@ git push origin main
 
 **问题**：部署时出现错误
 
+**常见错误及解决方案**：
+
+#### 1. "No fastapi entrypoint found"
+
+**错误信息**：
+```
+Error: No fastapi entrypoint found. Add an 'app' script in pyproject.toml 
+or define an entrypoint in one of: app.py, src/app.py, ...
+```
+
+**原因**：Vercel 无法找到 FastAPI 应用入口点
+
+**解决方案**：
+- ✅ 项目已包含 `web/pyproject.toml` 文件，指定了入口点
+- ✅ 确保 Root Directory 设置为 `web`
+- ✅ 确保 `api/index.py` 中有 `app` 变量
+
+如果仍然失败，检查：
+1. Vercel 项目设置中 Root Directory 是否为 `web`
+2. `web/api/index.py` 文件是否存在
+3. 重新部署项目
+
+#### 2. 依赖安装失败
+
 **解决方案**：
 1. 检查 `web/requirements.txt` 中的依赖版本
 2. 确保 Root Directory 设置为 `web`
