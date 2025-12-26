@@ -1,26 +1,16 @@
 """
-Vercel 入口点 - FastAPI 应用
+Vercel 入口点 - 简化版本
 """
 
-import sys
-import os
-
-# 添加必要的路径
-current_dir = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, current_dir)
-sys.path.insert(0, os.path.join(current_dir, 'api'))
-sys.path.insert(0, os.path.join(current_dir, 'lib'))
-
-# 直接在这里创建 FastAPI 应用，而不是导入
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, JSONResponse
-from fastapi.staticfiles import StaticFiles
+from fastapi.responses import HTMLResponse
+import os
 
 # 创建 FastAPI 应用
 app = FastAPI(
     title="AI Assistant Agent API",
-    description="智能助手 API - 提供天气查询和职业规划功能",
+    description="智能助手 API",
     version="1.0.0"
 )
 
@@ -33,48 +23,40 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# 尝试注册路由
+# 读取 HTML 文件内容
+html_content = None
 try:
-    # 导入路由模块
-    import chat
-    import weather
-    import config as config_module
-    
-    app.include_router(chat.router, prefix="/api", tags=["chat"])
-    app.include_router(weather.router, prefix="/api", tags=["weather"])
-    app.include_router(config_module.router, prefix="/api/config", tags=["config"])
+    html_path = os.path.join(os.path.dirname(__file__), "static", "index.html")
+    if os.path.exists(html_path):
+        with open(html_path, "r", encoding="utf-8") as f:
+            html_content = f.read()
 except Exception as e:
-    print(f"Warning: Could not import routes: {e}")
-    # 即使路由导入失败，app 也已经创建
+    print(f"Could not load HTML: {e}")
 
-# 静态文件处理
-static_dir = os.path.join(current_dir, "static")
-if os.path.exists(static_dir):
-    try:
-        app.mount("/static", StaticFiles(directory=static_dir), name="static")
-    except Exception as e:
-        print(f"Warning: Could not mount static files: {e}")
-
-@app.get("/")
+@app.get("/", response_class=HTMLResponse)
 async def root():
     """根路径 - 返回主页面"""
-    # 尝试返回 HTML 文件
-    index_path = os.path.join(current_dir, "static", "index.html")
-    if os.path.exists(index_path):
-        return FileResponse(index_path)
+    if html_content:
+        return HTMLResponse(content=html_content)
     
-    # 如果没有 HTML 文件，返回 API 信息
-    return {
-        "message": "AI Assistant Agent API",
-        "version": "1.0.0",
-        "docs": "/docs",
-        "health": "/health",
-        "endpoints": {
-            "chat": "/api/chat",
-            "weather": "/api/weather",
-            "config": "/api/config"
-        }
-    }
+    # 如果没有 HTML，返回简单的欢迎页面
+    return HTMLResponse(content="""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>AI Assistant Agent</title>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <h1>AI Assistant Agent API</h1>
+        <p>API is running successfully!</p>
+        <ul>
+            <li><a href="/docs">API Documentation</a></li>
+            <li><a href="/health">Health Check</a></li>
+        </ul>
+    </body>
+    </html>
+    """)
 
 @app.get("/health")
 async def health_check():
