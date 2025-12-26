@@ -1,0 +1,14 @@
+# 终端版本依赖
+# AI Assistant Agent - Terminal Version
+
+# OpenAI SDK - 用于调用 AI API
+openai>=1.0.0
+
+# HTTP 请求 - 用于天气 API 调用
+requests>=2.28.0
+
+# 终端美化 - 用于彩色输出和流式显示
+rich>=13.0.0
+
+# 数据验证 - 用于数据模型
+pydantic>=2.0.0
