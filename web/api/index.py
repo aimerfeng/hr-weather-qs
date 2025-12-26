@@ -14,15 +14,9 @@ import sys
 
 # 添加当前目录到 Python 路径（Vercel 部署需要）
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-# 使用相对导入
-try:
-    from . import chat, weather, config
-except ImportError:
-    # 本地开发时的导入方式
-    from web.api import chat, weather, config
-
-# 创建 FastAPI 应用
+# 创建 FastAPI 应用（必须在导入路由之前创建，确保 Vercel 能找到）
 app = FastAPI(
     title="AI Assistant Agent API",
     description="智能助手 API - 提供天气查询和职业规划功能",
@@ -38,10 +32,22 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# 注册路由
-app.include_router(chat.router, prefix="/api", tags=["chat"])
-app.include_router(weather.router, prefix="/api", tags=["weather"])
-app.include_router(config.router, prefix="/api/config", tags=["config"])
+# 尝试导入并注册路由
+try:
+    from . import chat, weather, config
+    app.include_router(chat.router, prefix="/api", tags=["chat"])
+    app.include_router(weather.router, prefix="/api", tags=["weather"])
+    app.include_router(config.router, prefix="/api/config", tags=["config"])
+except ImportError as e:
+    print(f"Warning: Could not import routes with relative import: {e}")
+    try:
+        from web.api import chat, weather, config
+        app.include_router(chat.router, prefix="/api", tags=["chat"])
+        app.include_router(weather.router, prefix="/api", tags=["weather"])
+        app.include_router(config.router, prefix="/api/config", tags=["config"])
+    except ImportError as e2:
+        print(f"Warning: Could not import routes: {e2}")
+        # 即使导入失败，app 也已经创建，Vercel 可以找到它
 
 # 挂载静态文件（仅在本地开发时）
 static_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "static")
@@ -105,6 +111,9 @@ async def health_check():
 # Vercel Serverless 入口
 # Vercel 会自动识别这个变量
 handler = app
+
+# 明确导出 app（确保 Vercel 能找到）
+__all__ = ["app", "handler"]
 
 
 if __name__ == "__main__":

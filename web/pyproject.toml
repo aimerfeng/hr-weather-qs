@@ -4,8 +4,7 @@ version = "1.0.0"
 description = "AI Assistant Agent - 智能助手代理"
 requires-python = ">=3.8"
 
-[tool.vercel]
-# 指定 FastAPI 应用入口
+[project.scripts]
 app = "api.index:app"
 
 [build-system]
