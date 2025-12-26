@@ -315,6 +315,51 @@ class AgentCore:
             self._add_message("assistant", full_response)
             
         except CityNotFoundError:
+            # 尝试让 AI 纠正城市名
+            corrected_city = await self._correct_city_name(city)
+            
+            if corrected_city and corrected_city.lower() != city.lower():
+                # AI 给出了不同的城市名，尝试重新查询
+                yield f"🔍 「{city}」可能不太准确，我帮您查询「{corrected_city}」的天气...\n\n"
+                
+                try:
+                    weather = self.weather_service.get_weather(corrected_city)
+                    weather_dict = {
+                        'city': weather.city,
+                        'temperature': weather.temperature,
+                        'feels_like': weather.feels_like,
+                        'humidity': weather.humidity,
+                        'wind_speed': weather.wind_speed,
+                        'condition': weather.condition
+                    }
+                    
+                    try:
+                        forecast = self.weather_service.get_forecast(corrected_city, days=5)
+                        forecast_list = [
+                            {
+                                'day_of_week': f.day_of_week,
+                                'temp_min': f.temp_min,
+                                'temp_max': f.temp_max,
+                                'condition': f.condition
+                            }
+                            for f in forecast
+                        ]
+                    except Exception:
+                        forecast_list = None
+                    
+                    weather_prompt = self._build_weather_prompt(corrected_city, weather_dict, forecast_list)
+                    
+                    full_response = f"🔍 「{city}」可能不太准确，我帮您查询「{corrected_city}」的天气...\n\n"
+                    async for chunk in self._generate_streaming_response(weather_prompt):
+                        full_response += chunk
+                        yield chunk
+                    
+                    self._add_message("assistant", full_response)
+                    return
+                    
+                except (CityNotFoundError, WeatherAPIError):
+                    pass  # 纠正后仍然失败，继续显示原始错误
+            
             response = f"抱歉，我没有找到「{city}」这个城市的天气信息。请检查城市名称是否正确，或者尝试使用英文名称。🤔"
             self._add_message("assistant", response)
             yield response
@@ -323,6 +368,50 @@ class AgentCore:
             response = f"获取天气信息时遇到了一些问题：{str(e)}。请稍后再试。😅"
             self._add_message("assistant", response)
             yield response
+    
+    async def _correct_city_name(self, city: str) -> Optional[str]:
+        """
+        使用 AI 纠正城市名称
+        
+        Args:
+            city: 用户输入的城市名
+            
+        Returns:
+            Optional[str]: 纠正后的城市名，如果无法纠正则返回 None
+        """
+        if not self.client:
+            return None
+        
+        try:
+            prompt = f"""用户想查询天气，输入了城市名「{city}」，但这个名称可能有拼写错误或不够准确。
+
+请分析这个城市名，给出最可能的正确城市名称。
+
+规则：
+1. 如果是拼音或错别字，纠正为正确的中文城市名
+2. 如果是别名或简称，转换为标准城市名（如"帝都"→"北京"，"魔都"→"上海"）
+3. 如果是英文拼写错误，纠正为正确拼写
+4. 如果已经是正确的城市名，直接返回原名
+5. 如果完全无法识别，返回"UNKNOWN"
+
+只返回城市名，不要任何解释。"""
+
+            response = await self.client.chat.completions.create(
+                model=self.config.model,
+                messages=[{"role": "user", "content": prompt}],
+                max_tokens=50,
+                temperature=0
+            )
+            
+            if response and response.choices:
+                corrected = response.choices[0].message.content.strip()
+                if corrected and corrected != "UNKNOWN" and len(corrected) <= 20:
+                    return corrected
+            
+            return None
+            
+        except Exception:
+            return None
     
     async def _handle_career_query(self, message: str) -> AsyncGenerator[str, None]:
         """

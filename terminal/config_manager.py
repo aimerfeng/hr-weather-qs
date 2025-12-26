@@ -460,20 +460,11 @@ class InteractiveConfigSetup:
             print(f"\n❌ 配置验证失败: {validation.error_message}")
             return None
         
-        # 询问是否测试连接
-        if self._confirm_test_connection():
-            print("\n⏳ 正在测试连接...")
-            result = asyncio.run(self.config_manager.test_connection(config))
-            if result.is_valid:
-                print("✅ 连接测试成功！")
-            else:
-                print(f"❌ 连接测试失败: {result.error_message}")
-                if not self._confirm_save_anyway():
-                    return None
-        
-        # 保存配置
+        # 保存配置（跳过连接测试，因为可能在 async 环境中）
+        # 连接测试将在首次使用时自动进行
         self.config_manager.update_config(config)
         print("\n✅ 配置已保存！")
+        print("[提示] 连接将在首次对话时自动测试")
         
         return config
 
