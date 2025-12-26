@@ -1,24 +1,14 @@
 {
-  "version": 2,
-  "name": "ai-assistant-agent",
   "builds": [
     {
       "src": "index.py",
       "use": "@vercel/python"
-    },
-    {
-      "src": "static/**",
-      "use": "@vercel/static"
     }
   ],
   "routes": [
     {
-      "src": "/static/(.*)",
-      "dest": "/static/$1"
-    },
-    {
       "src": "/(.*)",
-      "dest": "/index.py"
+      "dest": "index.py"
     }
   ]
 }
