@@ -34,7 +34,7 @@ ai-assistant-agent/
 
 ## 🚀 快速开始
 
-### 终端版本（推荐）
+### 终端版本（推荐新手）
 
 终端版本是一个独立的命令行程序，无需配置即可使用。
 
@@ -48,6 +48,80 @@ cd hr-weather-qs/terminal
 
 2. **一键安装**
 ```bash
+# 双击运行 install.bat
+# 或在命令行中运行：
+install.bat
+```
+
+3. **启动程序**
+```bash
+# 双击运行 run.bat
+# 或在命令行中运行：
+run.bat
+```
+
+#### Linux/Mac 用户
+
+1. **下载项目**
+```bash
+git clone https://github.com/aimerfeng/hr-weather-qs.git
+cd hr-weather-qs/terminal
+```
+
+2. **一键安装**
+```bash
+chmod +x install.sh run.sh
+./install.sh
+```
+
+3. **启动程序**
+```bash
+./run.sh
+```
+
+#### 手动安装
+
+```bash
+cd terminal
+pip install -r requirements.txt
+python -m terminal.main
+```
+
+### Web 版本（推荐部署）
+
+Web 版本提供美观的网页界面，支持一键部署到 Vercel。
+
+#### 在线演示
+
+🌐 **[立即体验](https://your-deployment.vercel.app)** （部署后替换此链接）
+
+#### 本地运行
+
+```bash
+cd web
+pip install -r requirements.txt
+uvicorn api.index:app --reload
+```
+
+访问 http://localhost:8000
+
+#### Vercel 部署（推荐）
+
+1. **Fork 本仓库到您的 GitHub**
+
+2. **访问 [Vercel](https://vercel.com) 并登录**
+
+3. **导入项目**
+   - 点击 "New Project"
+   - 选择您 Fork 的仓库
+   - Root Directory 设置为 `web`
+   - 点击 "Deploy"
+
+4. **完成！**
+   - 部署完成后获得访问链接
+   - 在设置中配置您的 API Key
+
+📖 **详细部署指南**: 查看 [DEPLOYMENT.md](DEPLOYMENT.md)
 # 双击运行 install.bat
 # 或在命令行中运行：
 install.bat
