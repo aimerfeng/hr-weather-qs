@@ -121,7 +121,9 @@ Web 版本提供美观的网页界面，支持一键部署到 Vercel。
 
 #### 在线演示
 
-🌐 **[立即体验](https://your-deployment.vercel.app)** （部署后替换此链接）
+🌐 **[立即体验](https://ai-assistant-agent-iota.vercel.app)** 
+
+部署成功！您可以直接访问上面的链接使用智能助手。
 
 #### 界面预览
 
