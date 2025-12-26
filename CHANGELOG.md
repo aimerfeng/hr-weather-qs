@@ -5,6 +5,45 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)，
 版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [1.1.0] - 2024-12-26
+
+### 新增 - Web 版本
+- ✨ 完整的 Web 版本实现
+- 🌐 美观的聊天界面（HTML + CSS + JavaScript）
+- 🔄 SSE 流式输出支持
+- 📡 FastAPI RESTful API
+- ⚙️ Web 配置管理界面
+- 🚀 Vercel Serverless 部署支持
+
+#### Web API 端点
+- `POST /api/chat` - 聊天 API（SSE 流式输出）
+- `GET /api/weather/{city}` - 天气查询
+- `GET /api/forecast/{city}` - 天气预报
+- `GET /api/history` - 查询历史
+- `POST /api/config/test` - 配置测试
+- `GET /api/config/presets` - 预设提供商
+
+#### Web 界面特性
+- 响应式布局设计
+- 实时流式消息显示
+- 天气卡片和预报展示
+- 历史记录侧边栏
+- API 配置弹窗
+- 连接测试功能
+- localStorage 配置持久化
+
+#### 部署配置
+- `web/vercel.json` - Vercel 部署配置
+- `web/requirements.txt` - Web 版本依赖
+- `DEPLOYMENT.md` - 详细部署指南
+- 支持一键部署到 Vercel
+- 自动 HTTPS 和 CDN
+
+### 文档
+- 新增 `DEPLOYMENT.md` - Vercel 部署完整指南
+- 新增 `web/README.md` - Web 版本详细文档
+- 更新主 `README.md` - 添加 Web 版本说明
+
 ## [1.0.0] - 2024-12-26
 
 ### 新增
