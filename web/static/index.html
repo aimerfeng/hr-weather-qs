@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能助手 - 小助</title>
+    <meta name="description" content="智能助手 - 提供天气查询和职业规划服务">
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <!-- 主容器 -->
+    <div class="container">
+        <!-- 侧边栏 -->
+        <aside class="sidebar">
+            <!-- Logo 和标题 -->
+            <div class="sidebar-header">
+                <h1 class="logo">🌟 小助</h1>
+                <p class="tagline">您的智能助手</p>
+            </div>
+
+            <!-- 天气时间表 -->
+            <section class="weather-timeline" id="weatherTimeline">
+                <h2 class="section-title">天气预报</h2>
+                <div class="timeline-content" id="timelineContent">
+                    <p class="empty-state">暂无天气数据</p>
+                </div>
+            </section>
+
+            <!-- 查询历史 -->
+            <section class="history-section">
+                <h2 class="section-title">查询历史</h2>
+                <div class="history-list" id="historyList">
+                    <p class="empty-state">暂无历史记录</p>
+                </div>
+            </section>
+        </aside>
+
+        <!-- 主聊天区域 -->
+        <main class="chat-main">
+            <!-- 顶部栏 -->
+            <header class="chat-header">
+                <div class="header-left">
+                    <h2 class="chat-title">智能助手</h2>
+                    <span class="status-indicator" id="statusIndicator">
+                        <span class="status-dot"></span>
+                        <span class="status-text">就绪</span>
+                    </span>
+                </div>
+                <div class="header-right">
+                    <button class="icon-button" id="settingsButton" title="设置">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M10 12.5C11.3807 12.5 12.5 11.3807 12.5 10C12.5 8.61929 11.3807 7.5 10 7.5C8.61929 7.5 7.5 8.61929 7.5 10C7.5 11.3807 8.61929 12.5 10 12.5Z" stroke="currentColor" stroke-width="1.5"/>
+                            <path d="M16.25 10C16.25 10.625 16.875 11.25 17.5 11.25C18.125 11.25 18.75 11.875 18.75 12.5V13.75C18.75 14.375 18.125 15 17.5 15C16.875 15 16.25 15.625 16.25 16.25C16.25 16.875 15.625 17.5 15 17.5H13.75C13.125 17.5 12.5 16.875 12.5 16.25C12.5 15.625 11.875 15 11.25 15C10.625 15 10 15.625 10 16.25C10 16.875 9.375 17.5 8.75 17.5H7.5C6.875 17.5 6.25 16.875 6.25 16.25C6.25 15.625 5.625 15 5 15C4.375 15 3.75 14.375 3.75 13.75V12.5C3.75 11.875 4.375 11.25 5 11.25C5.625 11.25 6.25 10.625 6.25 10C6.25 9.375 5.625 8.75 5 8.75C4.375 8.75 3.75 8.125 3.75 7.5V6.25C3.75 5.625 4.375 5 5 5C5.625 5 6.25 4.375 6.25 3.75C6.25 3.125 6.875 2.5 7.5 2.5H8.75C9.375 2.5 10 3.125 10 3.75C10 4.375 10.625 5 11.25 5C11.875 5 12.5 4.375 12.5 3.75C12.5 3.125 13.125 2.5 13.75 2.5H15C15.625 2.5 16.25 3.125 16.25 3.75C16.25 4.375 16.875 5 17.5 5C18.125 5 18.75 5.625 18.75 6.25V7.5C18.75 8.125 18.125 8.75 17.5 8.75C16.875 8.75 16.25 9.375 16.25 10Z" stroke="currentColor" stroke-width="1.5"/>
+                        </svg>
+                    </button>
+                </div>
+            </header>
+
+            <!-- 聊天消息区域 -->
+            <div class="chat-messages" id="chatMessages">
+                <!-- 欢迎消息 -->
+                <div class="message assistant-message">
+                    <div class="message-avatar">🌟</div>
+                    <div class="message-content">
+                        <div class="message-text">
+                            <p>您好！我是小助，您的智能助手。</p>
+                            <p>我可以帮您：</p>
+                            <ul>
+                                <li>🌤️ 查询任何城市的天气和未来预报</li>
+                                <li>🎯 提供深度职业规划建议和报告</li>
+                                <li>💬 回答各种问题，提供信息和建议</li>
+                            </ul>
+                            <p>试试问我"北京天气"或"职业规划"吧！</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 输入区域 -->
+            <div class="chat-input-container">
+                <div class="chat-input-wrapper">
+                    <textarea 
+                        class="chat-input" 
+                        id="chatInput" 
+                        placeholder="输入消息..." 
+                        rows="1"
+                    ></textarea>
+                    <button class="send-button" id="sendButton" title="发送">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M18.75 10L1.25 2.5L5 10L1.25 17.5L18.75 10Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 设置弹窗 -->
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">API 设置</h2>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="settingsForm">
+                    <!-- 提供商选择 -->
+                    <div class="form-group">
+                        <label for="provider">AI 提供商</label>
+                        <select id="provider" name="provider" class="form-control">
+                            <option value="openai">OpenAI</option>
+                            <option value="deepseek">DeepSeek</option>
+                            <option value="qwen">通义千问 (Qwen)</option>
+                            <option value="custom">自定义</option>
+                        </select>
+                    </div>
+
+                    <!-- Base URL -->
+                    <div class="form-group">
+                        <label for="baseUrl">API Base URL</label>
+                        <input 
+                            type="text" 
+                            id="baseUrl" 
+                            name="baseUrl" 
+                            class="form-control" 
+                            placeholder="https://api.openai.com/v1"
+                        >
+                    </div>
+
+                    <!-- API Key -->
+                    <div class="form-group">
+                        <label for="apiKey">API Key</label>
+                        <input 
+                            type="password" 
+                            id="apiKey" 
+                            name="apiKey" 
+                            class="form-control" 
+                            placeholder="sk-..."
+                        >
+                        <small class="form-hint">您的 API Key 仅保存在本地浏览器中</small>
+                    </div>
+
+                    <!-- 模型选择 -->
+                    <div class="form-group">
+                        <label for="model">模型</label>
+                        <select id="model" name="model" class="form-control">
+                            <option value="gpt-3.5-turbo">gpt-3.5-turbo</option>
+                            <option value="gpt-4">gpt-4</option>
+                            <option value="gpt-4-turbo">gpt-4-turbo</option>
+                        </select>
+                    </div>
+
+                    <!-- 按钮组 -->
+                    <div class="form-actions">
+                        <button type="button" class="button button-secondary" id="testButton">
+                            测试连接
+                        </button>
+                        <button type="submit" class="button button-primary">
+                            保存设置
+                        </button>
+                    </div>
+
+                    <!-- 测试结果 -->
+                    <div class="test-result" id="testResult" style="display: none;"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 加载脚本 -->
+    <script src="/static/app.js"></script>
+</body>
+</html>
