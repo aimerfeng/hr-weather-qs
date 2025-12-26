@@ -1,14 +1,20 @@
-# AI Assistant Agent 智能助手代理
+# 🌟 AI Assistant Agent 智能助手代理
 
 基于 OpenAI Python SDK 的智能代理系统，提供天气查询和职业规划两大核心功能。
 
-## 功能特性
+[![Python Version](https://img.shields.io/badge/python-3.8%2B-blue)](https://www.python.org/downloads/)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![GitHub Stars](https://img.shields.io/github/stars/aimerfeng/hr-weather-qs?style=social)](https://github.com/aimerfeng/hr-weather-qs)
 
-- 🌤️ **实时天气查询**: 查询任意城市的当前天气和未来5天预报
-- 📊 **天气历史记录**: 自动保存查询历史，快速访问常用城市
-- 💼 **深度职业规划**: 通过结构化面试生成个性化职业规划报告
-- 🔄 **流式输出**: 所有AI响应采用流式输出，提升用户体验
-- ⚙️ **灵活配置**: 支持 OpenAI、DeepSeek、Qwen 等多种 AI 提供商
+## ✨ 功能特性
+
+- 🌤️ **实时天气查询** - 查询任意城市的当前天气和未来5天预报
+- 📊 **天气历史记录** - 自动保存查询历史，快速访问常用城市
+- 💼 **深度职业规划** - 通过结构化面试生成个性化职业规划报告
+- 🔄 **流式输出** - 所有AI响应采用流式输出，提升用户体验
+- ⚙️ **灵活配置** - 支持 OpenAI、DeepSeek、Qwen 等多种 AI 提供商
+- 🎨 **美观界面** - 终端版本支持彩色输出和流式显示
+- 📦 **开箱即用** - 提供一键安装脚本，快速部署
 
 ## 项目结构
 
@@ -26,82 +32,151 @@ ai-assistant-agent/
 └── README.md
 ```
 
-## 快速开始
+## 🚀 快速开始
 
-### 环境要求
+### 终端版本（推荐）
 
-- Python 3.9+
-- pip 包管理器
+终端版本是一个独立的命令行程序，无需配置即可使用。
 
-### 安装依赖
+#### Windows 用户
 
+1. **下载项目**
 ```bash
-# 克隆仓库
 git clone https://github.com/aimerfeng/hr-weather-qs.git
-cd hr-weather-qs
-
-# 创建虚拟环境 (推荐)
-python -m venv venv
-source venv/bin/activate  # Linux/Mac
-# 或 venv\Scripts\activate  # Windows
-
-# 安装依赖
-pip install -r requirements.txt
+cd hr-weather-qs/terminal
 ```
 
-## 终端版本
+2. **一键安装**
+```bash
+# 双击运行 install.bat
+# 或在命令行中运行：
+install.bat
+```
 
-### 运行方式
+3. **启动程序**
+```bash
+# 双击运行 run.bat
+# 或在命令行中运行：
+run.bat
+```
+
+#### Linux/Mac 用户
+
+1. **下载项目**
+```bash
+git clone https://github.com/aimerfeng/hr-weather-qs.git
+cd hr-weather-qs/terminal
+```
+
+2. **一键安装**
+```bash
+chmod +x install.sh run.sh
+./install.sh
+```
+
+3. **启动程序**
+```bash
+./run.sh
+```
+
+#### 手动安装
 
 ```bash
 cd terminal
 pip install -r requirements.txt
-python main.py
+python -m terminal.main
 ```
 
-### 使用说明
+### 首次配置
 
-启动后，直接在命令行输入消息与助手对话。输入 `exit` 或 `退出` 结束对话。
+程序首次运行时会引导您完成 API 配置：
 
-### 示例对话
+1. 选择 AI 提供商（OpenAI / DeepSeek / 通义千问 / 自定义）
+2. 输入 API Key
+3. 选择模型
+
+配置会自动保存，下次运行时自动加载。
+
+### 使用示例
 
 ```
-欢迎使用智能助手！
-我可以帮您查询天气或提供职业规划建议。
-输入 'exit' 或 '退出' 结束对话。
+╔══════════════════════════════════════════════════════════════╗
+║                    🌟 智能助手 - 小助 🌟                      ║
+╚══════════════════════════════════════════════════════════════╝
 
-您: 北京今天天气怎么样？
+欢迎使用智能助手！我是小助，您的个人助手。
 
-助手: 让我为您查询北京的天气信息...
+我可以帮您：
+  🌤️  查询任何城市的天气和未来预报
+  🎯  提供深度职业规划建议和报告
+  💬  回答各种问题，提供信息和建议
 
-北京当前天气：
-🌡️ 温度: 25°C (体感 27°C)
-💧 湿度: 60%
-💨 风速: 10.5 km/h
-☀️ 天气状况: 晴
+快速开始：
+  • 输入 "北京天气" 查询天气
+  • 输入 "职业规划" 开始职业规划
+  • 输入 /help 查看所有命令
+  • 输入 exit 或 退出 结束对话
 
-未来5天预报：
-- 周一: 20-28°C 晴
-- 周二: 18-26°C 多云
-- 周三: 15-22°C 小雨
-...
+您: 北京天气
 
+小助: 北京今天天气晴朗，温度25°C，体感温度27°C...
+```
+
+## 📖 详细文档
+
+### 终端版本
+
+完整的终端版本文档请查看：[terminal/README.md](terminal/README.md)
+
+#### 特殊命令
+
+- `/help` - 显示帮助信息
+- `/clear` - 清空对话历史
+- `/config` - 重新配置 API
+- `/history` - 显示天气查询历史
+- `/cancel` - 取消当前职业规划面试
+- `exit` / `quit` / `退出` - 结束对话
+
+#### 功能演示
+
+**天气查询：**
+```
+您: 北京天气怎么样
+您: 上海明天天气
+您: 查询深圳的天气预报
+```
+
+**职业规划：**
+```
 您: 我想做职业规划
+```
+程序会通过6个结构化问题了解您的情况：
+1. 基本信息（年龄、学历、专业）
+2. 兴趣爱好
+3. 技能水平
+4. 工作经验
+5. 职业目标
+6. 工作偏好
 
-助手: 好的，我来帮您进行职业规划。首先，请告诉我一些基本信息：
+然后生成包含以下内容的详细报告：
+- 执行摘要
+- 个人档案分析
+- 职业方向推荐（至少3个）
+- 行业分析
+- 技能差距分析
+- 学习路径（免费/付费资源）
+- 技术栈推荐
+- 时间线和里程碑
+- 优先级行动项
 
-1. 您目前的职业/专业是什么？
-2. 您有多少年工作经验？
-
-您: 我是计算机专业，工作3年了
-
-助手: 了解了。接下来请告诉我：
-- 您对哪些技术领域比较感兴趣？
-- 您目前掌握了哪些技术技能？
-...
+**通用问答：**
+```
+您: Python 怎么学习
+您: 推荐一些编程书籍
+您: 如何提高代码质量
 ```
 
-## Web 版本
+## 🌐 Web 版本
 
 ### 本地运行
 
@@ -124,25 +199,25 @@ uvicorn api.index:app --reload
 
 ### 界面说明
 
-- **主聊天区**: 与助手对话的主要区域
-- **侧边栏**: 显示天气时间表和查询历史
-- **设置面板**: 点击右上角齿轮图标配置 API
+- **主聊天区** - 与助手对话的主要区域
+- **侧边栏** - 显示天气时间表和查询历史
+- **设置面板** - 点击右上角齿轮图标配置 API
 
-## API 配置
+## ⚙️ API 配置
 
 支持以下 AI 提供商：
 
-| 提供商 | API Base URL | 模型 |
-|--------|--------------|------|
-| OpenAI | https://api.openai.com/v1 | gpt-4, gpt-3.5-turbo |
-| DeepSeek | https://api.deepseek.com/v1 | deepseek-chat |
-| Qwen | https://dashscope.aliyuncs.com/compatible-mode/v1 | qwen-turbo, qwen-plus |
+| 提供商 | API Base URL | 推荐模型 | 获取 API Key |
+|--------|--------------|---------|-------------|
+| OpenAI | `https://api.openai.com/v1` | gpt-4, gpt-3.5-turbo | [platform.openai.com](https://platform.openai.com/api-keys) |
+| DeepSeek | `https://api.deepseek.com/v1` | deepseek-chat, deepseek-coder | [platform.deepseek.com](https://platform.deepseek.com/) |
+| 通义千问 | `https://dashscope.aliyuncs.com/compatible-mode/v1` | qwen-turbo, qwen-plus | [dashscope.aliyuncs.com](https://dashscope.aliyuncs.com/) |
 
-## 天气 API
+### 天气 API
 
 本项目使用 [wttr.in](https://wttr.in) 免费天气 API，无需 API Key。
 
-## 测试
+## 🧪 测试
 
 ```bash
 # 运行所有测试
@@ -158,13 +233,72 @@ pytest tests/property/
 pytest --cov=terminal --cov=web
 ```
 
-## 技术栈
+## 📁 项目结构
 
-- **后端**: Python, FastAPI, OpenAI SDK
-- **前端**: HTML, CSS, JavaScript
-- **测试**: pytest, hypothesis
-- **部署**: Vercel Serverless
+```
+ai-assistant-agent/
+├── terminal/               # 终端版本（独立可用）
+│   ├── __init__.py         # 包初始化
+│   ├── main.py             # 主程序入口
+│   ├── agent.py            # 代理核心逻辑
+│   ├── config_manager.py   # 配置管理
+│   ├── career_planner.py   # 职业规划服务
+│   ├── weather_service.py  # 天气查询服务
+│   ├── models.py           # 数据模型
+│   ├── requirements.txt    # 依赖列表
+│   ├── README.md           # 详细文档
+│   ├── install.bat/sh      # 安装脚本
+│   └── run.bat/sh          # 运行脚本
+├── web/                    # Web 版本
+│   ├── api/                # Serverless API
+│   ├── static/             # 前端资源
+│   └── lib/                # 共享库
+├── tests/                  # 测试文件
+│   ├── unit/               # 单元测试
+│   └── property/           # 属性测试
+├── .kiro/                  # 规范文档
+│   └── specs/              # 需求和设计文档
+├── requirements.txt        # 开发依赖
+└── README.md               # 本文件
+```
 
-## License
+## 🛠️ 技术栈
 
-MIT License
+- **后端**: Python 3.8+, OpenAI SDK, Pydantic
+- **终端**: Rich (彩色输出), asyncio (异步处理)
+- **Web**: FastAPI, Vercel Serverless
+- **前端**: HTML5, CSS3, JavaScript (原生)
+- **测试**: pytest, hypothesis (属性测试)
+- **天气**: wttr.in API (免费)
+
+## 📝 开发文档
+
+完整的需求和设计文档位于 `.kiro/specs/ai-assistant-agent/` 目录：
+
+- `requirements.md` - 功能需求文档
+- `design.md` - 系统设计文档
+- `tasks.md` - 实现任务列表
+
+## 🤝 贡献指南
+
+欢迎提交 Issue 和 Pull Request！
+
+1. Fork 本仓库
+2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 开启 Pull Request
+
+## 📄 许可证
+
+本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情
+
+## 👨‍💻 作者
+
+[@aimerfeng](https://github.com/aimerfeng)
+
+## ⭐ Star History
+
+如果这个项目对您有帮助，请给它一个 Star！
+
+[![Star History Chart](https://api.star-history.com/svg?repos=aimerfeng/hr-weather-qs&type=Date)](https://star-history.com/#aimerfeng/hr-weather-qs&Date)
